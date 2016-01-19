@@ -1,5 +1,7 @@
 # modeltranslation
 
+English version in [README.md](README.md).
+
 ## Introducción
 
 Esta aplicación permite realizar traducciones de los campos de los modelos y las almacena en una tabla de la BD.

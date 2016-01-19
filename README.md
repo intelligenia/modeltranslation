@@ -1,6 +1,6 @@
 # modeltranslation
 
-Spanish version in this link [README.es.md](README.es.md)
+Versión en español en [README.es.md](README.es.md)
 
 ## Introduction
 
