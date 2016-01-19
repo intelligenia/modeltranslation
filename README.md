@@ -37,12 +37,12 @@ You'll have to include a new setting in settings.py IS_MONOLINGUAL=False. IS_MON
 IS_MONOLINGUAL=False
 ```
 
-### Add MODEL_MODULES to settings.py
+### Add TRANSLATABLE_MODEL_MODULES to settings.py
 
-Add file setting MODEL_MODULES to settings.py. MODEL_MODULES contains a list of module paths that will be translated. For example:
+Add file setting TRANSLATABLE_MODEL_MODULES to settings.py. TRANSLATABLE_MODEL_MODULES contains a list of module paths that will be translated. For example:
 	
 ```python
-MODEL_MODULES = ["app1.models", "app2.models", "fees.models", "menus.models", ...]
+TRANSLATABLE_MODEL_MODULES = ["app1.models", "app2.models", "fees.models", "menus.models", ...]
 ```
 
 ## Import addtranslations

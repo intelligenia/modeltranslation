@@ -50,7 +50,7 @@ def trans_is_fuzzy_attr(attr,lang):
 ## Translation in DB
 class FieldTranslation(models.Model):
 	
-	_model_module_paths = settings.MODEL_MODULES
+	_model_module_paths = settings.TRANSLATABLE_MODEL_MODULES
 	_modules = {}
 	_models = {}
 	

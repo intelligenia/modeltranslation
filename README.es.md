@@ -36,12 +36,12 @@ Usar la opción IS_MONOLINGUAL=False en settings.py para indicar que el sitio ti
 IS_MONOLINGUAL=False
 ```
 
-### Añadir MODEL_MODULES
+### Añadir TRANSLATABLE_MODEL_MODULES
 
-Añadir en el fichero settings.py un MODEL_MODULES con una lista de las rutas de los modelos que van a ser traducidas. Por ejemplo:
+Añadir en el fichero settings.py un TRANSLATABLE_MODEL_MODULES con una lista de las rutas de los modelos que van a ser traducidas. Por ejemplo:
 	
 ```python
-MODEL_MODULES = ["app1.models", "app2.models", "fees.models", "menus.models", ...]
+TRANSLATABLE_MODEL_MODULES = ["app1.models", "app2.models", "fees.models", "menus.models", ...]
 ```
 
 ### Importar addtranslations en los modelos
