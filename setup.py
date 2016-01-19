@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Copyright (c) 2015 by intelligenia <info@intelligenia.es>
 #
 # The MIT License (MIT)
