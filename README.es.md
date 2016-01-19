@@ -11,7 +11,7 @@ Tú no deberías tocar el modelo FieldTranslation, pero si lo deseas puedes leer
 
 ## Instrucciones para usar la aplicación
 
-0. Instalación.
+### Instalación.
 
 Esta aplicación depende de [django-cuser](https://pypi.python.org/pypi/django-cuser),
 por lo que deberás instalarlo antes y ponerlo encima en el listado de aplicaciones instaladas.
@@ -26,19 +26,25 @@ INSTALLED_APPS = (
   "modeltranslation"
 )
 
-1.	Usar la opción IS_MONOLINGUAL=False en settings.py para indicar que el sitio tiene varios idiomas:
+###	Añadir IS_MONOLINGUAL
+
+Usar la opción IS_MONOLINGUAL=False en settings.py para indicar que el sitio tiene varios idiomas:
 
 ```python
 IS_MONOLINGUAL=False
 ```
 
-2.	Añadir en el fichero settings.py un MODEL_MODULES con una lista de las rutas de los modelos que van a ser traducidas. Por ejemplo:
+### Añadir MODEL_MODULES
+
+Añadir en el fichero settings.py un MODEL_MODULES con una lista de las rutas de los modelos que van a ser traducidas. Por ejemplo:
 	
 ```python
 MODEL_MODULES = ["app1.models", "app2.models", "fees.models", "menus.models", ...]
 ```
 
-3.	Importar addtranslations en el fichero de modelos de tu aplicación:
+### Importar addtranslations en los modelos
+
+Importar addtranslations en el fichero de modelos de tu aplicación:
 
 ```python
 from modeltranslation.translation import addtranslations
@@ -53,7 +59,9 @@ addtranslations(__name__)
 Esta llamada lo que hace es añadir un observador que se encarga de guardar
 las traducciones cuando se ejecuta el método **save** del modelo.
 
-4.	Modifica los modelos de tu aplicación incluyendo un campo "translatable_fields" en el Meta con una lista de los atributos a traducir.
+## Añadir translatable_fields a los modelos
+
+Modifica los modelos de tu aplicación incluyendo un campo "translatable_fields" en el Meta con una lista de los atributos a traducir.
 
 Por ejemplo:
 
@@ -75,8 +83,9 @@ class Event(models.Model):
 		translatable_fields = ("name", "description", "short_description")
 
 ```
+### FIN
 
-5. FIN. A partir de este momento, tienes la aplicación de gestión de traducciones
+A partir de este momento, tienes la aplicación de gestión de traducciones
 
 
 ## Uso de traducciones en los formularios de modelos

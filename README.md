@@ -14,7 +14,7 @@ You will not have to modify FieldTranslation, but you can read the code.
 
 ## Instructions
 
-0. Installation.
+### Installation
 
 This application depends on [django-cuser](https://pypi.python.org/pypi/django-cuser),
 so you will need to install it and put it in the list of INSTALLED_APPS before modeltranslation.
@@ -28,20 +28,26 @@ INSTALLED_APPS = (
   "modeltranslation"
 )
 
-1.	You'll have to include a new setting in settings.py IS_MONOLINGUAL=False. IS_MONOLINGUAL acts as a switch for modeltranslation:
+## Add IS_MONOLINGUAL to settings.py
+
+You'll have to include a new setting in settings.py IS_MONOLINGUAL=False. IS_MONOLINGUAL acts as a switch for modeltranslation:
 
 ```python
 # modeltranslation only works when IS_MONOLINGUAL is False
 IS_MONOLINGUAL=False
 ```
 
-2.	Add file setting MODEL_MODULES to settings.py. MODEL_MODULES contains a list of module paths that will be translated. For example:
+### Add MODEL_MODULES to settings.py
+
+Add file setting MODEL_MODULES to settings.py. MODEL_MODULES contains a list of module paths that will be translated. For example:
 	
 ```python
 MODEL_MODULES = ["app1.models", "app2.models", "fees.models", "menus.models", ...]
 ```
 
-3.	Import **addtranslations** if each of your models.py files:
+## Import addtranslations
+
+Import **addtranslations** if each of your models.py files:
 
 ```python
 from modeltranslation.translation import addtranslations
@@ -55,7 +61,9 @@ addtranslations(__name__)
 
 This call adds an observer that saves translations when **save** model method is executed.
 
-4.	Modify your models includin a meta field "translatable_fields". This field is a list with the fields you want to translate.
+## Add translatable_fields to your models
+
+Modify your models including a meta field "translatable_fields". This field is a list with the fields you want to translate.
 
 For example:
 
@@ -78,7 +86,9 @@ class Event(models.Model):
 
 ```
 
-5. Now you have everything configurated and can use modeltranslation translations.
+### And that's all!
+
+Now you have everything configurated and can use modeltranslation translations.
 
 
 ## How to use translations in ModelForms
