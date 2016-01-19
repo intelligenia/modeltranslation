@@ -19,15 +19,15 @@
 						<label for="filter">Filtro</label>
 						<div id="filter-select" class="controls">
 							<select class="" id="id-filter" name="filter">
-									<option id='option-all' value='all' {% if filter == "all" %}selected=selected{% endif %}>Todos</option>
-									<option id='option-fuzzy' value='fuzzy' {% if filter == "fuzzy" %}selected=selected{% endif %}>Incompletas</option>
-									<option id='option-completed' value='completed' {% if filter == "completed" %}selected=selected{% endif %}>Completas</option>
+									<option id='option-all' value='all' {% if filter == "all" %}selected=selected{% endif %}>All</option>
+									<option id='option-fuzzy' value='fuzzy' {% if filter == "fuzzy" %}selected=selected{% endif %}>Incomplete</option>
+									<option id='option-completed' value='completed' {% if filter == "completed" %}selected=selected{% endif %}>Complete</option>
 							</select>
 						</div>
 					</div>
 					
 					<div class="control-group">
-						<label for="filter">Idioma</label>
+						<label for="filter">Language</label>
 						<div id="language-select" class="controls">
 							<select class="" id="id-language" name="language">
 									{% get_language_info_list for LANGUAGES as languages %}
@@ -44,7 +44,7 @@
 			
 			<button id="search-button" class="btn disable_on_click transition" type="submit" name="submit" value="Buscar">
 				<span class="fa fa-search"></span>
-				<span class="button-txt">Buscar</span>
+				<span class="button-txt">Search</span>
 			</button>
 		</fieldset>
 	</form>

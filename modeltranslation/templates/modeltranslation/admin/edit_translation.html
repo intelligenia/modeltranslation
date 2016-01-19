@@ -18,14 +18,10 @@
 
 {% block breadcrumb_element %}
 	{{ block.super }}
-	<li class="">
-		<span class="divider">/</span>
-		<a href="{% url 'modeltranslation:view_all_url' translation.lang 'all' %}" class="first">Traducciones a {{language}}</a>
-	</li>
-	<li class="">
-		<span class="divider">/</span>
-		<a href="{% url 'modeltranslation:edit_url' translation.id %}" class="first">Traducir al {{language}} &quot;{{translation.source_text|truncatewords:10|striptags}}&quot;</a>
-	</li>
+	&rsaquo;
+	<a href="{% url 'modeltranslation:view_all_url' translation.lang 'all' %}" class="first">Traducciones a {{language}}</a>
+	&rsaquo;
+	<a href="{% url 'modeltranslation:edit_url' translation.id %}" class="first">Traducir al {{language}} &quot;{{translation.source_text|truncatewords:10|striptags}}&quot;</a>
 {% endblock breadcrumb_element %}
 
 {% block body %}

@@ -20,7 +20,7 @@ msgstr ""
 {% for trans in translations %}
 #: {% if trans.context %}{{trans.context}}{% else %}{{trans.model}} {{trans.object_id}} ({{trans.field}}){% endif %}{% if trans.is_fuzzy %}
 #, fuzzy{% endif %}
-msgctxt "{{trans.id}}--{{trans.model}}--{{trans.object_id}}--{{trans.field}}"
+msgctxt "{{trans.id}}--{{trans.module}}--{{trans.model}}--{{trans.object_id}}--{{trans.field}}"
 msgid "{{trans.source_text|safe}}"
 msgstr "{{trans.translation|safe}}"
 {% endfor %}

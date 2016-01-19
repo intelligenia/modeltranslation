@@ -1,5 +1,6 @@
-{% extends "base_admin.html" %}
-{% load thumbnail %}
+{# {% extends "base_admin.html" %} #}
+
+{% extends "admin/index.html" %}
 {% load i18n %}
 {% load static from staticfiles %}
 
@@ -19,13 +20,15 @@
 	Administrar Traducciones
 {% endblock %}
 
-{% block breadcrumb_element %}
-	{{ block.super }}
-	<li class="first">
-		<span class="divider">/</span>
-		<a href="{% url 'modeltranslation:admin_url' %}" class="first">Traducciones</a>
-	</li>
-{% endblock breadcrumb_element %}
+{% block breadcrumbs %}
+	<div class="breadcrumbs">
+		<a href="{% url 'admin:index' %}" class="first">{% trans "Home"%}</a>  &rsaquo;
+		<a href="{% url 'admin:index' %}modeltranslation" class="first">Modeltranslations</a> &rsaquo;
+		<a href="{% url 'modeltranslation:admin_url' %}" class="first">{% trans "Translations" %}</a>
+		{% block breadcrumb_element %}
+		{% endblock breadcrumb_element %}
+	</div>
+{% endblock breadcrumbs %}
 
 {% block body %}
 	<div id="body-content" class="span12">

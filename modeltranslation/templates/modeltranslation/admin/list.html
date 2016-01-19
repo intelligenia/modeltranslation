@@ -10,32 +10,26 @@
 {% endblock %}
 
 {% block head_title %}
-	Administrar Traducciones
+	Administrate translations
 {% endblock %}
 
 {% block breadcrumb_element %}
 	{{ block.super }}
-	<li class="">
-		<span class="divider">/</span>
-		<a href="{% url 'modeltranslation:view_all_url' lang 'all' %}" class="first">Traducciones a {{language}}</a>
-	</li>
+	&rsaquo;
+	<a href="{% url 'modeltranslation:view_all_url' lang 'all' %}" class="first">Translations to {{language}}</a>
 	{% if filter and filter != "all" %}
-		<li class="">
-			<span class="divider">/</span>
+			&rsaquo;
 			<a href="{% url 'modeltranslation:view_all_url' lang filter %}" class="first">
 				{% if filter == "fuzzy" %}
-					Incompletas
+					Incomplete
 				{% elif filter == "completed" %}
-					Completas
+					Complete
 				{% endif %}
 			</a>
-		</li>
 	{% endif %}
 	{% if search_query %}
-		<li class="">
-			<span class="divider">/</span>
-			<a href="{% url 'modeltranslation:view_all_url' lang filter %}?search={{search_query}}" class="first">Resultados de búsqueda</a>
-		</li>		
+		&rsaquo;
+		<a href="{% url 'modeltranslation:view_all_url' lang filter %}?search={{search_query}}" class="first">Results</a>
 	{% endif %}
 {% endblock breadcrumb_element %}
 
@@ -45,7 +39,7 @@
 		<div id="content-title" class="page-header">
 			<h1>
 				{%block title %}
-					Administrar Traducciones a {{language}}
+					Administrate translations to {{language}}
 				{% endblock %}
 			</h1>
 		</div>
@@ -54,16 +48,16 @@
 			{% block content %}
 				{% include "modeltranslation/admin/search.html" %}
 				<div id="tpvs_admin_list">
-					<h2>Lista de textos existentes:</h2>
+					<h2>List of existing texts:</h2>
 					{% if translations|length > 0 %}
 						<div id="translation_list" class="row-fluid">
 							<table class="table table-hover table-striped">
 								<tr>
-									<th class="span2">Modelo</th>
-									<th class="span3">Atributo</th>
-									<th class="span5">Texto origen</th>
-									<th class="span5">Traducción</th>
-									<th class="span1">Acciones</th>
+									<th class="span2">Model</th>
+									<th class="span3">Attribute</th>
+									<th class="span5">Source text</th>
+									<th class="span5">Translation</th>
+									<th class="span1">Actions</th>
 								</tr>
 								{% for translation in translations %}
 									{% cycle 'odd' 'even' as parity silent %}
@@ -82,7 +76,7 @@
 							</table>
 						</div>
 					{% else %}
-						<div class="alert alert-warning">No hay traducciones para este idioma disponibles</div>
+						<div class="alert alert-warning">There are no translations for this language</div>
 					{% endif %}
 
 				</div>

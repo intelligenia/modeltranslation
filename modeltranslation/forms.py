@@ -1,70 +1,86 @@
 # -*- coding: utf-8 -*-
 
-########################################################################
-##
-## Formularios para la traducción masiva de textos
-##
-########################################################################
+import copy
 
 from django import forms
+from django.conf import settings
 
-from modeltranslation.models import FieldTranslation
-
-from tinymce.widgets import TinyMCE
-
-import re
-
-def has_html_tag(text):
-	result = re.match(r"<p>|<ul>|<img>|<strong>|<span>", text)
-	return result
+from modeltranslation.models import trans_attr, trans_is_fuzzy_attr
 
 
-class ModelFormTrimForm(forms.ModelForm):
+########################################################################
+## Useful ModelForm to translatable models
+class TranslatableModelForm(forms.ModelForm):
 
-	def clean(self):
-		cleaned_data = super(ModelFormTrimForm, self).clean()
+	####################################################################
+	## Automatically add new fields for each language you have in your system
+	def _add_translation_form_fields(self):
+		# Model of the ModelForm
+		cls = self._meta.model
+		# If Model has no translatable fields
+		if not hasattr(cls,"_meta") or not hasattr(cls._meta,"translatable_fields") or len(cls._meta.translatable_fields)==0:
+			return False
 
-		for field in self.cleaned_data:
-			if isinstance(self.cleaned_data[field], basestring):
-				self.cleaned_data[field] = self.cleaned_data[field].strip()
+		# If it is an edition, load the current translations of the object
+		if self.instance:
+			self.instance.load_translations()
 
-		#Hay que devolver siempre el array "cleaned_data"
-		return cleaned_data
+		# For each translatable field a new field for each language is created
+		translatable_fields = cls._meta.translatable_fields
+
+		for translatable_field in translatable_fields:
+			self.fields[translatable_field].widget.is_translatable = True
+			self.fields[translatable_field].widget.translation_group = translatable_field
+			self.fields[translatable_field].widget.lang = settings.LANGUAGE_CODE
+
+			if not settings.IS_MONOLINGUAL:
+				for lang in settings.LANGUAGES:
+					lang = lang[0]
+
+					if lang != settings.LANGUAGE_CODE:
+						# Adds a translatable field
+						# It is empty by default, its language must not be current language and
+						# it should not be required
+						field_lang = trans_attr(translatable_field, lang)
+						self.fields[field_lang] = copy.deepcopy(self.fields[translatable_field])
+						self.fields[field_lang].initial = ""
+						self.fields[field_lang].widget.lang = lang
+						self.fields[field_lang].required = False
+
+						# If we are editing a Model instance, sets its correct initial values
+						if self.instance and hasattr(self.instance, field_lang):
+							self.fields[field_lang].initial = getattr(self.instance, field_lang)
+
+						# is_fuzzy fields
+						isfuzzy_lang = trans_is_fuzzy_attr(translatable_field,lang)
+						self.fields[isfuzzy_lang] = forms.ChoiceField(choices=((u"0",u"No necesita revisión"),(u"1", u"Necesita revisión")), label=u"{0} necesita revisión para idioma {1}".format(translatable_field,lang), initial="1")
+						self.fields[isfuzzy_lang].widget.attrs["class"] = "is_fuzzy"
+						if self.instance and hasattr(self.instance, isfuzzy_lang):
+							if getattr(self.instance, isfuzzy_lang):
+								self.fields[isfuzzy_lang].initial = "1"
+							else:
+								self.fields[isfuzzy_lang].initial = "0"
+		return True
 
 
-class FieldTranslationForm(ModelFormTrimForm):
-	class Meta:
-		model = FieldTranslation
-		exclude = ("model", "object_id", "field", "lang", "source_text", "source_md5", "context", "creation_datetime", "last_update_datetime", "creator_user")
-
-	class Media:
-		css = {
-			"all": ("css/modeltranslation/forms/common.css",)
-		}
-
-		js = (
-			"js/modeltranslation/forms/common.js",
-		)
-
+	####################################################################################################################
+	## By default, adds the translation fields in the form.
+	## Please, take note that if you modify the fields, you have to re-call _add_translation_form_fields to take effect
+	## in the new fields
 	def __init__(self, *args, **kwargs):
-		super(FieldTranslationForm, self).__init__(*args, **kwargs)
-		if self.instance and has_html_tag(self.instance.source_text):
-			self.fields["translation"].widget = TinyMCE()
+		super(TranslatableModelForm, self).__init__(*args, **kwargs)
+		# Translations of the Model fields
+		self._add_translation_form_fields()
 
-	def clean(self):
-		cleaned_data = super(FieldTranslationForm, self).clean()
-		# Hay que devolver siempre el array "cleaned_data"
-		return cleaned_data
-		
-	def save(self, *args, **kwargs):
-		obj = super(FieldTranslationForm, self).save(*args, **kwargs)
-		#cache = TransCache.factory()
-		#cache.clear()
+
+	####################################################################################################################
+	## Assigns translation attributes as dynamic attributes for the new instance or existing instance being edited.
+	def save(self, commit=True):
+		obj = super(TranslatableModelForm, self).save(commit)
+		# The instance has all the translated fields introduced as dynamic attributes
+		if hasattr(obj._meta, "translatable_fields") and hasattr(obj, "set_translation_fields"):
+			# Set translation fields to object
+			obj.set_translation_fields(self.cleaned_data)
+			if commit:
+				obj.save()
 		return obj
-
-
-########################################################################
-########################################################################
-## Actualizador del archivo .po
-class ImportTranslationsForm(forms.Form):
-	file = forms.FileField()

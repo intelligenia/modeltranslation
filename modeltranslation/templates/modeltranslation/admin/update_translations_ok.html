@@ -10,14 +10,14 @@
 {% endblock %}
 
 {% block head_title %}
-	Administrar Traducciones
+	Admin translations
 {% endblock %}
 
 {% block breadcrumb_element %}
 	{{ block.super }}
 	<li class="">
 		<span class="divider">/</span>
-		<a href="{% url 'modeltranslation:update_translations_url' %}" class="first">Actualización de traducciones</a>
+		<a href="{% url 'modeltranslation:update_translations_url' %}" class="first">Translations update</a>
 	</li>
 {% endblock breadcrumb_element %}
 
@@ -26,16 +26,16 @@
 		<div id="content-title" class="page-header">
 			<h1>
 				{%block title %}
-					Actualización realizada con éxito
+					Success
 				{% endblock %}
 			</h1>
 		</div>
 
 		<div id="content" class="">
 			{% block content %}
-				Se han actualizado {{num_translations}} textos.
+				{{num_translations}} texts has been translated.
 				<div class="translation_admin_actions">
-					<a href="{% url 'modeltranslation:admin_url' %}" class="btn"><span class="fa fa-reload-alt"></span> Volver</a>
+					<a href="{% url 'modeltranslation:admin_url' %}" class="btn"><span class="fa fa-reload-alt"></span> Back</a>
 				</div>
 			{% endblock content %}
 		</div>
