@@ -1,0 +1,68 @@
+{% extends "modeltranslation/admin/admin.html" %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block head_title %}
+	Traducir al {{language}} &quot;{{translation.source_text|truncatewords:10|striptags}}&quot;
+{% endblock %}
+
+{% block css %}
+	{{ block.super }}
+	{{ form.media.css }}
+{% endblock css %}
+
+{% block js %}
+	{{ block.super }}
+	{{ form.media.js }}
+{% endblock js %}
+
+{% block breadcrumb_element %}
+	{{ block.super }}
+	<li class="">
+		<span class="divider">/</span>
+		<a href="{% url 'modeltranslation:view_all_url' translation.lang 'all' %}" class="first">Traducciones a {{language}}</a>
+	</li>
+	<li class="">
+		<span class="divider">/</span>
+		<a href="{% url 'modeltranslation:edit_url' translation.id %}" class="first">Traducir al {{language}} &quot;{{translation.source_text|truncatewords:10|striptags}}&quot;</a>
+	</li>
+{% endblock breadcrumb_element %}
+
+{% block body %}
+	<div id="body-content" class="span12">
+		<div id="content-title" class="page-header">
+			<h1>
+				{%block title %}
+					Traducir al {{language}} &quot;{{translation.source_text|truncatechars:30|striptags}}&quot;
+				{% endblock %}
+			</h1>
+		</div>
+
+		<div id="content" class="">
+			{% block content %}
+				<div id="tpvs_admin_list">
+					<form id="form_banner" class="form-horizontal" method="post">
+						{% csrf_token %}
+						<fieldset>
+							<legend>Texto original</legend>
+							<div id="source_text" class="source_text">
+								{{translation.source_text|safe}}
+							</div>
+							<legend>Texto traducido</legend>
+							{% include "modeltranslation/admin/form_fieldset_bootstrap_render.html" %}
+						</fieldset>
+
+						 <div class="form-actions">
+							<button type="submit" class="btn" name="cancel" value="Cancelar">
+								<span class="fa fa-times"></span> Cancelar
+							</button>
+							<button type="submit" class="btn btn-primary" name="save" value="Guardar">
+								<span class="fa fa-floppy-o"></span> Guardar
+							</button>
+						</div>
+					</form>
+				</div>
+			{% endblock content %}
+		</div>
+	</div>
+{% endblock %}

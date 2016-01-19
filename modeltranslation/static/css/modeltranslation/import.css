@@ -1,0 +1,18 @@
+
+.container-li{
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+form.import{
+	display: inline-block;
+	margin: 0px;
+}
+
+form.import > fieldset.import > input.translation_file{
+	height: 22px;
+}
+
+form.import > fieldset.import > input.import_submit{
+	height: 22px;
+}

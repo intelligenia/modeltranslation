@@ -1,0 +1,26 @@
+# Translations for {{website_name}}.
+# Copyright (C) {{website_name}}
+# This file is distributed under the same license as the PACKAGE package.
+# {{last_translator}} <{{last_translator_email}}>, {% now "Y" %}.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: {% now "Y-m-d H:iO" %}\n"
+"PO-Revision-Date: {% now "Y-m-d H:iO" %}\n"
+"Last-Translator: {{last_translator}} <{{last_translator_email}}>\n"
+"Language-Team: {{lang}} <LL@li.org>\n"
+"Language: {{lang}}\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+{% for trans in translations %}
+#: {% if trans.context %}{{trans.context}}{% else %}{{trans.model}} {{trans.object_id}} ({{trans.field}}){% endif %}{% if trans.is_fuzzy %}
+#, fuzzy{% endif %}
+msgctxt "{{trans.id}}--{{trans.model}}--{{trans.object_id}}--{{trans.field}}"
+msgid "{{trans.source_text|safe}}"
+msgstr "{{trans.translation|safe}}"
+{% endfor %}

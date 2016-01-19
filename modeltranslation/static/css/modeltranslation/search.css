@@ -1,0 +1,69 @@
+
+#search-form{
+
+}
+
+#search-form fieldset{
+	margin-left: auto;
+	margin-right: auto;
+	width: 402px;
+} 
+
+/* Campos de filtrado */
+#search-form fieldset .control-groups{
+	float: left;
+	margin-right: 30px;
+}
+
+#search-form fieldset .control-group{
+
+}
+
+#search-form fieldset #search-input{
+
+}
+
+#search-form fieldset #search-input input{
+	padding: 4px;
+	width: 252px;
+}
+
+
+#search-form #filter-group{
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#search-form #filter-group .control-group{
+	float: left;
+	margin-bottom: 0;
+}
+
+
+#search-form fieldset #filter-select{
+	margin-right: 20px;
+}
+
+#search-form fieldset #filter-select select{
+	width: 120px;
+}
+
+#search-form fieldset #language-select{
+
+}
+
+#search-form fieldset #language-select select{
+	width: 120px;
+}
+
+/* Botón de buscar */
+#search-form fieldset button#search-button{
+	float: left;
+	height: 115px;
+	width: 110px;
+}
+
+#search-form fieldset button#search-button{
+	font-size: 14pt;
+}

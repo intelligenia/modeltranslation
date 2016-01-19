@@ -1,0 +1,53 @@
+{% load i18n %}
+
+{% block translation_search %}
+
+<div id="search-form" class="search-form row-fluid">
+	<form method="post" action="{% url 'modeltranslation:view_all_url' lang filter %}">
+		{% csrf_token %}
+		<fieldset id="search-form-fieldset">
+
+			<div class="control-groups">
+				<div class="control-group">
+					<div id="search-input" class="controls">
+						<input class="" id="id-search" type="text" name="search" maxlength="50" value="{{search_query}}" placeholder="Buscar cadena">
+					</div>
+				</div>
+				
+				<div id="filter-group" class="filter-group filters">
+					<div class="control-group">
+						<label for="filter">Filtro</label>
+						<div id="filter-select" class="controls">
+							<select class="" id="id-filter" name="filter">
+									<option id='option-all' value='all' {% if filter == "all" %}selected=selected{% endif %}>Todos</option>
+									<option id='option-fuzzy' value='fuzzy' {% if filter == "fuzzy" %}selected=selected{% endif %}>Incompletas</option>
+									<option id='option-completed' value='completed' {% if filter == "completed" %}selected=selected{% endif %}>Completas</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label for="filter">Idioma</label>
+						<div id="language-select" class="controls">
+							<select class="" id="id-language" name="language">
+									{% get_language_info_list for LANGUAGES as languages %}
+									{% for language in languages %}
+										{% if language.code != LANGUAGE_CODE %}
+											<option id="option-{{language.code}}" value='{{language.code}}' {% if language.code == lang %}selected=selected{% endif %}>{{language.name_local|capfirst}}</option>
+										{% endif %}
+									{% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<button id="search-button" class="btn disable_on_click transition" type="submit" name="submit" value="Buscar">
+				<span class="fa fa-search"></span>
+				<span class="button-txt">Buscar</span>
+			</button>
+		</fieldset>
+	</form>
+</div>
+
+{% endblock translation_search %}

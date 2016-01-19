@@ -1,0 +1,92 @@
+{% extends "modeltranslation/admin/admin.html" %}
+
+{% load static from staticfiles %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block custom-css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/modeltranslation/search.css' %}" />
+{% endblock %}
+
+{% block head_title %}
+	Administrar Traducciones
+{% endblock %}
+
+{% block breadcrumb_element %}
+	{{ block.super }}
+	<li class="">
+		<span class="divider">/</span>
+		<a href="{% url 'modeltranslation:view_all_url' lang 'all' %}" class="first">Traducciones a {{language}}</a>
+	</li>
+	{% if filter and filter != "all" %}
+		<li class="">
+			<span class="divider">/</span>
+			<a href="{% url 'modeltranslation:view_all_url' lang filter %}" class="first">
+				{% if filter == "fuzzy" %}
+					Incompletas
+				{% elif filter == "completed" %}
+					Completas
+				{% endif %}
+			</a>
+		</li>
+	{% endif %}
+	{% if search_query %}
+		<li class="">
+			<span class="divider">/</span>
+			<a href="{% url 'modeltranslation:view_all_url' lang filter %}?search={{search_query}}" class="first">Resultados de búsqueda</a>
+		</li>		
+	{% endif %}
+{% endblock breadcrumb_element %}
+
+{% block body %}
+
+	<div id="body-content" class="span12">
+		<div id="content-title" class="page-header">
+			<h1>
+				{%block title %}
+					Administrar Traducciones a {{language}}
+				{% endblock %}
+			</h1>
+		</div>
+
+		<div id="content" class="">
+			{% block content %}
+				{% include "modeltranslation/admin/search.html" %}
+				<div id="tpvs_admin_list">
+					<h2>Lista de textos existentes:</h2>
+					{% if translations|length > 0 %}
+						<div id="translation_list" class="row-fluid">
+							<table class="table table-hover table-striped">
+								<tr>
+									<th class="span2">Modelo</th>
+									<th class="span3">Atributo</th>
+									<th class="span5">Texto origen</th>
+									<th class="span5">Traducción</th>
+									<th class="span1">Acciones</th>
+								</tr>
+								{% for translation in translations %}
+									{% cycle 'odd' 'even' as parity silent %}
+									{% with verbose_field_name=translation.get_verbose_field_name source_text=translation.source_text translation_text=translation.translation %}
+										<tr id="translation__{{translation.id}}" class="{{parity}} model-{{translation.model}}">
+											<td class="span2">{{translation.source_model.meta__verbose_name.title}}</td>
+											<td class="span3">{{verbose_field_name}}</td>
+											<td class="span5">{{source_text|truncatewords:20}}</td>
+											<td class="span5">{{translation_text|truncatewords:20}}</td>
+											<td class="span1">
+												<a title="Editar traducción" href="{% url 'modeltranslation:edit_url' translation.id %}"><span class="fa fa-flag icon"></span></a>
+											</td>
+										</tr>
+									{% endwith %}
+								{% endfor %}
+							</table>
+						</div>
+					{% else %}
+						<div class="alert alert-warning">No hay traducciones para este idioma disponibles</div>
+					{% endif %}
+
+				</div>
+			{% endblock content %}
+		</div>
+	</div>
+{% endblock %}

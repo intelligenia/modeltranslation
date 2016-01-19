@@ -1,0 +1,43 @@
+{% extends "modeltranslation/admin/admin.html" %}
+
+{% load static from staticfiles %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block custom-css %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/modeltranslation/search.css' %}" />
+{% endblock %}
+
+{% block head_title %}
+	Administrar Traducciones
+{% endblock %}
+
+{% block breadcrumb_element %}
+	{{ block.super }}
+	<li class="">
+		<span class="divider">/</span>
+		<a href="{% url 'modeltranslation:update_translations_url' %}" class="first">Actualización de traducciones</a>
+	</li>
+{% endblock breadcrumb_element %}
+
+{% block body %}
+	<div id="body-content" class="span12">
+		<div id="content-title" class="page-header">
+			<h1>
+				{%block title %}
+					Actualización realizada con éxito
+				{% endblock %}
+			</h1>
+		</div>
+
+		<div id="content" class="">
+			{% block content %}
+				Se han actualizado {{num_translations}} textos.
+				<div class="translation_admin_actions">
+					<a href="{% url 'modeltranslation:admin_url' %}" class="btn"><span class="fa fa-reload-alt"></span> Volver</a>
+				</div>
+			{% endblock content %}
+		</div>
+	</div>
+{% endblock %}

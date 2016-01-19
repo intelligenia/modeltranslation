@@ -1,0 +1,31 @@
+textarea#id_translation{
+	width: 100%;
+}
+
+label.control-label{
+	display: none;
+}
+
+.form-horizontal .controls
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+
+.controls #id_is_fuzzy{
+	display: inline-block;
+	margin-top: 0px;
+}
+
+.controls .help_text{
+	display: inline-block;
+}
+
+.controls .errors
+{
+	clear: both;
+	display: block;
+}
+
