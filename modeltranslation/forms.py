@@ -29,37 +29,40 @@ class TranslatableModelForm(forms.ModelForm):
 		translatable_fields = cls._meta.translatable_fields
 
 		for translatable_field in translatable_fields:
-			self.fields[translatable_field].widget.is_translatable = True
-			self.fields[translatable_field].widget.translation_group = translatable_field
-			self.fields[translatable_field].widget.lang = settings.LANGUAGE_CODE
+			# Add additional language fields only if that field is present
+			# in the ModelForm
+			if translatable_field in self._meta.fields:
+				self.fields[translatable_field].widget.is_translatable = True
+				self.fields[translatable_field].widget.translation_group = translatable_field
+				self.fields[translatable_field].widget.lang = settings.LANGUAGE_CODE
 
-			if not settings.IS_MONOLINGUAL:
-				for lang in settings.LANGUAGES:
-					lang = lang[0]
+				if not settings.IS_MONOLINGUAL:
+					for lang in settings.LANGUAGES:
+						lang = lang[0]
 
-					if lang != settings.LANGUAGE_CODE:
-						# Adds a translatable field
-						# It is empty by default, its language must not be current language and
-						# it should not be required
-						field_lang = trans_attr(translatable_field, lang)
-						self.fields[field_lang] = copy.deepcopy(self.fields[translatable_field])
-						self.fields[field_lang].initial = ""
-						self.fields[field_lang].widget.lang = lang
-						self.fields[field_lang].required = False
+						if lang != settings.LANGUAGE_CODE:
+							# Adds a translatable field
+							# It is empty by default, its language must not be current language and
+							# it should not be required
+							field_lang = trans_attr(translatable_field, lang)
+							self.fields[field_lang] = copy.deepcopy(self.fields[translatable_field])
+							self.fields[field_lang].initial = ""
+							self.fields[field_lang].widget.lang = lang
+							self.fields[field_lang].required = False
 
-						# If we are editing a Model instance, sets its correct initial values
-						if self.instance and hasattr(self.instance, field_lang):
-							self.fields[field_lang].initial = getattr(self.instance, field_lang)
+							# If we are editing a Model instance, sets its correct initial values
+							if self.instance and hasattr(self.instance, field_lang):
+								self.fields[field_lang].initial = getattr(self.instance, field_lang)
 
-						# is_fuzzy fields
-						isfuzzy_lang = trans_is_fuzzy_attr(translatable_field,lang)
-						self.fields[isfuzzy_lang] = forms.ChoiceField(choices=((u"0",u"No necesita revisión"),(u"1", u"Necesita revisión")), label=u"{0} necesita revisión para idioma {1}".format(translatable_field,lang), initial="1")
-						self.fields[isfuzzy_lang].widget.attrs["class"] = "is_fuzzy"
-						if self.instance and hasattr(self.instance, isfuzzy_lang):
-							if getattr(self.instance, isfuzzy_lang):
-								self.fields[isfuzzy_lang].initial = "1"
-							else:
-								self.fields[isfuzzy_lang].initial = "0"
+							# is_fuzzy fields
+							isfuzzy_lang = trans_is_fuzzy_attr(translatable_field,lang)
+							self.fields[isfuzzy_lang] = forms.ChoiceField(choices=((u"0",u"No necesita revisión"),(u"1", u"Necesita revisión")), label=u"{0} necesita revisión para idioma {1}".format(translatable_field,lang), initial="1")
+							self.fields[isfuzzy_lang].widget.attrs["class"] = "is_fuzzy"
+							if self.instance and hasattr(self.instance, isfuzzy_lang):
+								if getattr(self.instance, isfuzzy_lang):
+									self.fields[isfuzzy_lang].initial = "1"
+								else:
+									self.fields[isfuzzy_lang].initial = "0"
 		return True
 
 
