@@ -31,7 +31,9 @@ class TranslatableModelForm(forms.ModelForm):
 		for translatable_field in translatable_fields:
 			# Add additional language fields only if that field is present
 			# in the ModelForm
-			if translatable_field in self._meta.fields:
+			if (hasattr(self._meta, "fields") and self._meta.fields and translatable_field in self._meta.fields) or\
+				(hasattr(self._meta, "exclude") and self._meta.exclude and not translatable_field in self._meta.exclude):
+				
 				self.fields[translatable_field].widget.is_translatable = True
 				self.fields[translatable_field].widget.translation_group = translatable_field
 				self.fields[translatable_field].widget.lang = settings.LANGUAGE_CODE
