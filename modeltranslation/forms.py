@@ -33,14 +33,15 @@ class TranslatableModelForm(forms.ModelForm):
 			# in the ModelForm
 			if (hasattr(self._meta, "fields") and self._meta.fields and translatable_field in self._meta.fields) or\
 				(hasattr(self._meta, "exclude") and self._meta.exclude and not translatable_field in self._meta.exclude):
-				
+
 				self.fields[translatable_field].widget.is_translatable = True
 				self.fields[translatable_field].widget.translation_group = translatable_field
 				self.fields[translatable_field].widget.lang = settings.LANGUAGE_CODE
 
 				if not settings.IS_MONOLINGUAL:
-					for lang in settings.LANGUAGES:
-						lang = lang[0]
+					for language_pair in settings.LANGUAGES:
+						lang = language_pair[0]
+						language_name = language_pair[1]
 
 						if lang != settings.LANGUAGE_CODE:
 							# Adds a translatable field
@@ -48,6 +49,7 @@ class TranslatableModelForm(forms.ModelForm):
 							# it should not be required
 							field_lang = trans_attr(translatable_field, lang)
 							self.fields[field_lang] = copy.deepcopy(self.fields[translatable_field])
+							self.fields[field_lang].label += u" ({0})".format(language_name)
 							self.fields[field_lang].initial = ""
 							self.fields[field_lang].widget.lang = lang
 							self.fields[field_lang].required = False
@@ -58,7 +60,7 @@ class TranslatableModelForm(forms.ModelForm):
 
 							# is_fuzzy fields
 							isfuzzy_lang = trans_is_fuzzy_attr(translatable_field,lang)
-							self.fields[isfuzzy_lang] = forms.ChoiceField(choices=((u"0",u"No necesita revisión"),(u"1", u"Necesita revisión")), label=u"{0} necesita revisión para idioma {1}".format(translatable_field,lang), initial="1")
+							self.fields[isfuzzy_lang] = forms.ChoiceField(choices=((u"0",u"No necesita revisión"),(u"1", u"Necesita revisión")), label=u"{0} necesita revisión para idioma {1}".format(translatable_field, language_name), initial="1")
 							self.fields[isfuzzy_lang].widget.attrs["class"] = "is_fuzzy"
 							if self.instance and hasattr(self.instance, isfuzzy_lang):
 								if getattr(self.instance, isfuzzy_lang):
