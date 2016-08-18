@@ -99,7 +99,7 @@ datos una vez que se guarde el objeto.
 ```python
 from modeltranslation.forms import TranslatableModelForm
 
-class EventForm(forms.ModelForm, TranslatableModelForm):
+class EventForm(TranslatableModelForm):
 	pass
 ```
 
