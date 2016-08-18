@@ -100,7 +100,7 @@ your website.
 ```python
 from modeltranslation.forms import TranslatableModelForm
 
-class EventForm(forms.ModelForm, TranslatableModelForm):
+class EventForm(TranslatableModelForm):
 	pass
 ```
 
