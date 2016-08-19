@@ -4,6 +4,7 @@ import copy
 
 from django import forms
 from django.conf import settings
+#from django.utils.translation import ugettext as _
 
 from modeltranslation.models import trans_attr, trans_is_fuzzy_attr
 
@@ -27,6 +28,8 @@ class TranslatableModelForm(forms.ModelForm):
 
 		# For each translatable field a new field for each language is created
 		translatable_fields = cls._meta.translatable_fields
+
+		_ = lambda x : x
 
 		for translatable_field in translatable_fields:
 			# Add additional language fields only if that field is present
@@ -54,13 +57,20 @@ class TranslatableModelForm(forms.ModelForm):
 							self.fields[field_lang].widget.lang = lang
 							self.fields[field_lang].required = False
 
+							# Original field label
+							field_label = self.fields[translatable_field].label
+
 							# If we are editing a Model instance, sets its correct initial values
 							if self.instance and hasattr(self.instance, field_lang):
 								self.fields[field_lang].initial = getattr(self.instance, field_lang)
 
 							# is_fuzzy fields
 							isfuzzy_lang = trans_is_fuzzy_attr(translatable_field,lang)
-							self.fields[isfuzzy_lang] = forms.ChoiceField(choices=((u"0",u"No necesita revisión"),(u"1", u"Necesita revisión")), label=u"{0} necesita revisión para idioma {1}".format(translatable_field, language_name), initial="1")
+							self.fields[isfuzzy_lang] = forms.ChoiceField(
+								choices=(
+									(u"0",_(u"No necesita revisión")),
+									(u"1", _(u"Necesita revisión"))),
+								label=_(u"'{0}' necesita revisión para idioma {1}").format(field_label, language_name), initial="1")
 							self.fields[isfuzzy_lang].widget.attrs["class"] = "is_fuzzy"
 							if self.instance and hasattr(self.instance, isfuzzy_lang):
 								if getattr(self.instance, isfuzzy_lang):
