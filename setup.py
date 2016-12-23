@@ -49,9 +49,9 @@ setup(
     description="Modeltranslation is an utility to translate Django model fields.",
     long_description=(read('README.md') + '\n\n' + read('CHANGES.md')),
     classifiers=[
-        'Development Status :: 1 - Alfa',
+        'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
-        'License :: OSI Approved :: The MIT License (MIT)',
+        'License :: OSI Approved :: MIT License',
     ],
     install_requires=[
           'django-cuser', 'django-tinymce' 
