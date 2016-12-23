@@ -27,9 +27,11 @@
 import os
 from setuptools import setup, find_packages
 
-
-def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+try:
+    import pypandoc
+    long_description = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError):
+    long_description = open('README.md').read()
 
 data_files = []
 for dirpath, dirnames, filenames in os.walk('.'):
@@ -43,11 +45,11 @@ for dirpath, dirnames, filenames in os.walk('.'):
 
 setup(
     name="modeltranslation",
-    version="0.2",
+    version="0.24",
     author="intelligenia S.L.",
     author_email="diego@intelligenia.es",
     description="Modeltranslation is an utility to translate Django model fields.",
-    long_description=(read('README.md') + '\n\n' + read('CHANGES.md')),
+    long_description=long_description,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: Django',

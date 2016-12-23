@@ -4,18 +4,20 @@ English version in [README.md](README.md).
 
 ## Introducción
 
-Esta aplicación permite realizar traducciones de los campos de los modelos y las almacena en una tabla de la BD.
+Esta aplicación de [Django](https://www.djangoproject.com/) permite realizar traducciones
+de los campos de los modelos y las almacena en una tabla de la BD.
 De esta forma, cada vez que se ejecute el método save() se genera una entrada incompleta en una tabla. Luego el
 traductor podrá traducir esas entradas incompletas.
 
 Tú no deberías tocar el modelo FieldTranslation, pero si lo deseas puedes leer el código.
 
+Todo el código está en el siguiente repositori de github: [https://github.com/intelligenia/modeltranslation](https://github.com/intelligenia/modeltranslation)
 
 ## Instrucciones para usar la aplicación
 
 ### Instalación.
 
-Esta aplicación depende de [django-cuser](https://pypi.python.org/pypi/django-cuser),
+Esta aplicación depende de [django-cuser](https://pypi.python.org/pypi/django-cuser), y de [TinyMCE](https://pypi.python.org/pypi/django-tinymce)
 por lo que deberás instalarlo antes y ponerlo encima en el listado de aplicaciones instaladas.
 
 Puedes usar pip para instalar django-cuser.
@@ -24,6 +26,7 @@ Ahora sí, para instalar la aplicación modeltranslation en settings.py debes
 incluirla en el listado de aplicaciones instaladas.
 
 INSTALLED_APPS = (
+  "tinymce",
   "cuser",
   "modeltranslation"
 )

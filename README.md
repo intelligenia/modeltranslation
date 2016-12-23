@@ -4,19 +4,20 @@ Versión en español en [README.es.md](README.es.md)
 
 ## Introduction
 
-This application allows you use django model translations easily. Everything is based on FieldTranslation,
+This application allows you use [Django](https://www.djangoproject.com/) model translations easily. Everything is based on FieldTranslation,
 a class that stores the translation of each field of your application models.
 
 All the process is transparent and the entries are created when save is called.
 
 You will not have to modify FieldTranslation, but you can read the code.
 
+All code in in the github repository: [https://github.com/intelligenia/modeltranslation](https://github.com/intelligenia/modeltranslation)
 
 ## Instructions
 
 ### Installation
 
-This application depends on [django-cuser](https://pypi.python.org/pypi/django-cuser),
+This application depends on [django-cuser](https://pypi.python.org/pypi/django-cuser) and [TinyMCE](https://pypi.python.org/pypi/django-tinymce),
 so you will need to install it and put it in the list of INSTALLED_APPS before modeltranslation.
 
 You are encouraged to use pip to install django-cuser.
@@ -24,6 +25,7 @@ You are encouraged to use pip to install django-cuser.
 Once you've done this, you can install modeltranslation in settings.py:
 
 INSTALLED_APPS = (
+  "tinymce",
   "cuser",
   "modeltranslation"
 )
