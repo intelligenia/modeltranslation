@@ -22,6 +22,12 @@ so you will need to install it and put it in the list of INSTALLED_APPS before m
 
 You are encouraged to use pip to install django-cuser.
 
+The easiest way to install modeltranslation is by installing it from [pipy](https://pypi.python.org/pypi/modeltranslation):
+
+```sh
+pip install modeltranslation
+```
+
 Once you've done this, you can install modeltranslation in settings.py:
 
 INSTALLED_APPS = (
