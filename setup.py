@@ -45,7 +45,7 @@ for dirpath, dirnames, filenames in os.walk('.'):
 
 setup(
     name="modeltranslation",
-    version="0.24",
+    version="0.25",
     author="intelligenia S.L.",
     author_email="diego@intelligenia.es",
     description="Modeltranslation is an utility to translate Django model fields.",

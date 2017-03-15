@@ -180,13 +180,14 @@ def _set_dict_translations(instance, dict_translations):
 
 ########################################################################
 ## Gets the translated field of an instance
-def _get_translated_field(instance, attr):
+def _get_translated_field(instance, attr, lang=None):
 	# If we don't have translations, return the original attribute
 	if site_is_monolingual():
 		return getattr(instance, attr)
-	
+
 	# Current language
-	lang = translation.get_language()
+	if lang is None:
+		lang = translation.get_language()
 	#print u"\n{0}[id={1}]: {2}='{3}', atrr_in_lang='{2}_{4}'".format(instance.__class__.__name__, instance.id, attr, getattr(instance,attr), lang)
 	
 	# Load translations
